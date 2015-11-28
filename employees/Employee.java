@@ -5,13 +5,14 @@
  */
 package employees;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author gabegm
  */
-public abstract class Employee {
+public abstract class Employee implements Serializable {
     private String name;
     private String surname;
     private int ssn;

@@ -9,6 +9,14 @@ package exceptions;
  *
  * @author gabegm
  */
-public class NoOvertimeForHourlyEmployeesException {
+public class NoOvertimeForHourlyEmployeesException extends Exception {
+
+    public NoOvertimeForHourlyEmployeesException() {
+        super("Hourly employee cannot exceed 30 hours");
+    }
+
+    public NoOvertimeForHourlyEmployeesException(String message) {
+        super(message);
+    }
     
 }

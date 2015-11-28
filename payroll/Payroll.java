@@ -6,6 +6,7 @@
 package payroll;
 
 import employees.*;
+import exceptions.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,7 +19,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -113,16 +113,26 @@ public class Payroll {
 
                 break;
             case 4:
-                hours = promptUser("Enter employee hours").nextInt();
-                hourlyRate = promptUser("Enter employee hourly rate").nextDouble();
+                try {
+                    hours = promptUser("Enter employee hours").nextInt();
+                    isOvertimeForHourlyEmployeeExceeded(hours);
+                    hourlyRate = promptUser("Enter employee hourly rate").nextDouble();
 
-                HourlyEmployee hourlyEmployee = new HourlyEmployee(name, surname, ssn, convertStringToDate(dob), hours, hourlyRate);
+                    HourlyEmployee hourlyEmployee = new HourlyEmployee(name, surname, ssn, convertStringToDate(dob), hours, hourlyRate);
 
-                employeeList.add(hourlyEmployee);
-
+                    employeeList.add(hourlyEmployee);
+                } catch (NoOvertimeForHourlyEmployeesException ex) {
+                    System.out.println(ex.getMessage());
+                }
                 break;
             default:
                 break;
+        }
+    }
+    
+    public void isOvertimeForHourlyEmployeeExceeded(int hours) throws NoOvertimeForHourlyEmployeesException {
+        if (hours > 30) {
+            throw new NoOvertimeForHourlyEmployeesException();
         }
     }
     
@@ -140,7 +150,17 @@ public class Payroll {
                 return e;
             }
         }
+        return null;
+    }
+    
+    public Employee searchEmployeeByName() {
+        String name = promptUser("Enter employee name").next();
         
+        for(Employee e: employeeList) {
+            if(e.getName().equals(name)) {
+                return e;
+            }
+        }
         return null;
     }
     
@@ -151,7 +171,7 @@ public class Payroll {
     }
     
     public void getEmployee() {
-        searchEmployee().toString();
+        searchEmployeeByName().toString();
     }
     
     public void deleteEmployee() {
@@ -167,16 +187,16 @@ public class Payroll {
         e.setSsn(promptUser("Enter employee ssn").nextInt());
         e.setDob(convertStringToDate(promptUser("Enter employee date of birth").next()));
         
-        if(e instanceof CommissionEmployee) {
-            CommissionEmployee ce = (CommissionEmployee)e;
-            ce.setCommission(promptUser("Enter employee commission").nextDouble());
-            ce.setSales(promptUser("Enter employee sales").nextDouble());
-            employeeList.add(ce);
-        }else if(e instanceof BasePlusCommissionEmployee) {
+        if(e instanceof BasePlusCommissionEmployee) {
             BasePlusCommissionEmployee bpc = (BasePlusCommissionEmployee)e;
             bpc.setCommission(promptUser("Enter employee commission").nextDouble());
             bpc.setBaseSalary(promptUser("Enter employee base salary").nextDouble());
             employeeList.add(bpc);
+        }else if(e instanceof CommissionEmployee) {
+            CommissionEmployee ce = (CommissionEmployee)e;
+            ce.setCommission(promptUser("Enter employee commission").nextDouble());
+            ce.setSales(promptUser("Enter employee sales").nextDouble());
+            employeeList.add(ce);
         }else if(e instanceof SalariedEmployee) {
             SalariedEmployee se = (SalariedEmployee)e;
             se.setSalary(promptUser("Enter employee salary").nextDouble());
