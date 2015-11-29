@@ -13,12 +13,10 @@ import java.util.Date;
  */
 public class BasePlusCommissionEmployee extends CommissionEmployee {
     private double BaseSalary;
-    private float test;
 
     public BasePlusCommissionEmployee() {
         super();
         this.BaseSalary = 0;
-        this.test = 0;
     }
 
     public BasePlusCommissionEmployee(String name, String surname, int ssn, Date dob, double sales, double commission, double BaseSalary) {
@@ -33,7 +31,7 @@ public class BasePlusCommissionEmployee extends CommissionEmployee {
 
     @Override
     public String toString() {
-        return super.toString() + "BaseSaalry=" + BaseSalary;
+        return super.toString() + "BaseSaalry=" + BaseSalary + "wage=" + getWage();
     }
 
     /**
@@ -50,18 +48,4 @@ public class BasePlusCommissionEmployee extends CommissionEmployee {
         this.BaseSalary = BaseSalary;
     }
 
-    /**
-     * @return the test
-     */
-    public float getTest() {
-        return test;
-    }
-
-    /**
-     * @param test the test to set
-     */
-    public void setTest(float test) {
-        this.test = test;
-    }
-    
 }
