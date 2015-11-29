@@ -212,7 +212,7 @@ public class Payroll {
     
     public void saveAllEmployeesToDisk() {
         try {
-            ObjectOutput objectOutput = new ObjectOutputStream(new FileOutputStream("items.itm"));
+            ObjectOutput objectOutput = new ObjectOutputStream(new FileOutputStream("employees.itm"));
             objectOutput.writeObject(employeeList);
             objectOutput.close();
         } catch (IOException ex) {
