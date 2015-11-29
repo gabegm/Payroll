@@ -26,7 +26,7 @@ public class SalariedEmployee extends Employee {
     
     @Override
     public double getWage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return getSalary();
     }
 
     @Override

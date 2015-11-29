@@ -29,7 +29,7 @@ public class HourlyEmployee extends Employee {
     
     @Override
     public double getWage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return getHours() * getHourlyRate();
     }
 
     @Override

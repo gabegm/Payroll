@@ -48,7 +48,7 @@ public class Payroll {
                     payroll.getAllEmployees();
                     break;
                 case 3:
-                    payroll.getEmployee();
+                    payroll.searchEmployeeByName();
                     break;
                 case 4:
                     payroll.deleteEmployee();
@@ -153,15 +153,14 @@ public class Payroll {
         return null;
     }
     
-    public Employee searchEmployeeByName() {
+    public void searchEmployeeByName() {
         String name = promptUser("Enter employee name").next();
         
         for(Employee e: employeeList) {
             if(e.getName().equals(name)) {
-                return e;
+                System.out.println(e);
             }
         }
-        return null;
     }
     
     public void getAllEmployees() {
@@ -170,44 +169,44 @@ public class Payroll {
         }
     }
     
-    public void getEmployee() {
-        searchEmployeeByName().toString();
-    }
-    
     public void deleteEmployee() {
         employeeList.remove(searchEmployee());
     }
     
     public void editEmployee() {
         Employee e = searchEmployee();
-        employeeList.remove(e);
-        
-        e.setName(promptUser("Enter employee name").next());
-        e.setSurname(promptUser("Enter employee surname").next());
-        e.setSsn(promptUser("Enter employee ssn").nextInt());
-        e.setDob(convertStringToDate(promptUser("Enter employee date of birth").next()));
-        
-        if(e instanceof BasePlusCommissionEmployee) {
-            BasePlusCommissionEmployee bpc = (BasePlusCommissionEmployee)e;
-            bpc.setCommission(promptUser("Enter employee commission").nextDouble());
-            bpc.setBaseSalary(promptUser("Enter employee base salary").nextDouble());
-            employeeList.add(bpc);
-        }else if(e instanceof CommissionEmployee) {
-            CommissionEmployee ce = (CommissionEmployee)e;
-            ce.setCommission(promptUser("Enter employee commission").nextDouble());
-            ce.setSales(promptUser("Enter employee sales").nextDouble());
-            employeeList.add(ce);
-        }else if(e instanceof SalariedEmployee) {
-            SalariedEmployee se = (SalariedEmployee)e;
-            se.setSalary(promptUser("Enter employee salary").nextDouble());
-            employeeList.add(se);
-        }else if(e instanceof HourlyEmployee) {
-            HourlyEmployee he = (HourlyEmployee)e;
-            he.setHourlyRate(promptUser("Enter employee hourly rate").nextDouble());
-            he.setHours(promptUser("Enter employee hours").nextInt());
-            employeeList.add(he);
+        if(e != null) {
+            employeeList.remove(e);
+
+            e.setName(promptUser("Enter employee name").next());
+            e.setSurname(promptUser("Enter employee surname").next());
+            e.setSsn(promptUser("Enter employee ssn").nextInt());
+            e.setDob(convertStringToDate(promptUser("Enter employee date of birth").next()));
+
+            if(e instanceof BasePlusCommissionEmployee) {
+                BasePlusCommissionEmployee bpc = (BasePlusCommissionEmployee)e;
+                bpc.setCommission(promptUser("Enter employee commission").nextDouble());
+                bpc.setBaseSalary(promptUser("Enter employee base salary").nextDouble());
+                employeeList.add(bpc);
+            }else if(e instanceof CommissionEmployee) {
+                CommissionEmployee ce = (CommissionEmployee)e;
+                ce.setCommission(promptUser("Enter employee commission").nextDouble());
+                ce.setSales(promptUser("Enter employee sales").nextDouble());
+                employeeList.add(ce);
+            }else if(e instanceof SalariedEmployee) {
+                SalariedEmployee se = (SalariedEmployee)e;
+                se.setSalary(promptUser("Enter employee salary").nextDouble());
+                employeeList.add(se);
+            }else if(e instanceof HourlyEmployee) {
+                HourlyEmployee he = (HourlyEmployee)e;
+                he.setHourlyRate(promptUser("Enter employee hourly rate").nextDouble());
+                he.setHours(promptUser("Enter employee hours").nextInt());
+                employeeList.add(he);
+            }else{
+                System.out.println("Could not edit employee");
+            }
         }else{
-            System.out.println("Could not edit employee");
+            System.out.println("Employee ssn not found");
         }
     }
     

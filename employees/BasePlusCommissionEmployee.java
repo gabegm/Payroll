@@ -28,7 +28,7 @@ public class BasePlusCommissionEmployee extends CommissionEmployee {
 
     @Override
     public double getWage() {
-        return super.getWage(); //To change body of generated methods, choose Tools | Templates.
+        return getBaseSalary() + getSales() * getCommission()/100;
     }
 
     @Override
